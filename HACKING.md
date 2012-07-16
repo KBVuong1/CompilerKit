@@ -52,6 +52,18 @@ In the terminal, paste this in for your distribution:
     sudo apt-get install git cmake doxygen libglib2.0-dev pkg-config
 
 ## What to install on Mac
+
+To get git on MAC the instructions are easily followed by this link:
+https://github.com/lawrancej/CompilerDesign.git
+
+Note: Unlike Windows there is no BASH window that needs to be install on the machine. Everything will be run off of MAC owns build in terminal (similar to any Linux machines).
+
+Generate SSH Keys(MAC OSX)
+```
+ssh-keygen -t rsa -C "yourname@somewhere.com"
+```
+This will generate the SSH Key that will link your MAC machine to github directly. 
+ 
 If you do not already have it, install:
 
  - [Command Line Tools for Xcode](https://developer.apple.com/downloads) or [Xcode](http://itunes.apple.com/us/app/xcode/id448457090)
