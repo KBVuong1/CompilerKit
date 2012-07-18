@@ -15,16 +15,9 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "CompilerKit/automata.h"
-#include "test-suite.h"
-
-/** @todo Write test cases for CompilerKitFSM.
- * 1. Use this prototype (replace `case` as appropriate):
- *  `void test_FSM_case (void);` 
- * 2. Add function prototypes for all functions into `test-suite.h`
- * 3. Add to `test-suite.c`:
- *  `g_test_add_func ("/test-bar/test-FSM-case", test_FSM_case);`
- */
+#include <glib.h>
+#include "CompilerKit.h"
+#include "test.h"
  
 /**
  * test_FSM_start_state:
@@ -40,7 +33,6 @@ void test_FSM_start_state (void)
     g_test_message ("Testing FSM start_state");
     g_test_timer_start ();
     
-    /** @todo Test here  */
     fsm = compilerkit_FSM_new ("constructor");
     g_assert (g_strcmp0 (compilerkit_FSM_get_start_state (fsm), "constructor") == 0);
     compilerkit_FSM_set_start_state (fsm, "start_state");
@@ -65,7 +57,6 @@ void test_FSM_states (void)
     g_test_message ("Testing FSM state");
     g_test_timer_start ();
 
-    /** @todo Test here  */
     fsm = compilerkit_FSM_new ("zero");
     compilerkit_FSM_add_state (fsm, "one");
     compilerkit_FSM_add_state (fsm, "two");
@@ -86,4 +77,3 @@ void test_FSM_states (void)
     g_assert_cmpfloat(g_test_timer_elapsed (), <=, 1);
     g_object_unref (fsm);
 }
-

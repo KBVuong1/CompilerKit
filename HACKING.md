@@ -4,14 +4,38 @@ Hacking CompilerKit
 - [Ohloh tracker](https://www.ohloh.net/p/CompilerKit)
 
 ## Getting started
-1. Install the dependencies for your platform.
+1. Install the dependencies (Git, CMake, Doxygen, GLib, GObject, C compiler) for your platform.
+
     - [Windows](#what-to-install-on-windows)
     - [Linux](#what-to-install-on-linux)
     - [Mac](#what-to-install-on-mac)
+
 2. [Fork the project here.](https://github.com/lawrancej/CompilerKit/fork)
-3. [Build CompilerKit.](#how-do-i-build-compilerkit)
-4. [Read Documentation.](#where-is-the-documentation)
-5. [Learn how to contribute.](#how-to-contribute)
+
+         git clone https://github.com/YourNameGoesHereButDontTypeThisInLiterally/CompilerKit.git
+         cd CompilerKit
+
+3. Add me as upstream, and add in your collaborators, too.
+
+         git remote add upstream https://github.com/lawrancej/CompilerKit.git
+         ./collaborators.sh setup
+
+4. [Build CompilerKit.](#how-do-i-build-compilerkit)
+
+        ./build.sh build
+
+5. [Read Documentation.](#where-is-the-documentation)
+
+        docs/html/index.html
+
+6. [Learn how to contribute.](#how-to-contribute)
+
+        git pull upstream master          # Get the latest and greatest.
+        git checkout -b issueXYZ          # Work on an issue in a new topic branch, based off of the upstream master branch.
+        ... Hack away ...                 # Your new code compiles and the tests pass, right?
+        git commit -a -m "Fixed issueXYZ" # Great! Commit your changes.
+        git push origin issueXYZ          # Push your changes to your repo. Send in a pull request.
+        git checkout master               # Switch back to master. Rinse and repeat.
 
 ## What to install on Windows
 You will need to download and install everything manually.
@@ -22,6 +46,8 @@ Therefore, verify everything is working first before building CompilerKit.
  - [CMake.](http://www.cmake.org/cmake/resources/software.html)
  - [Doxygen.](http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc)
  - [GLib and GObject.](http://ftp.gnome.org/pub/gnome/binaries/win32/gtk+/2.24/gtk+-bundle_2.24.10-20120208_win32.zip) Extract to `C:\glib`. Add `C:\glib\bin` to the system PATH.
+ - [GrahpViz.](http://www.graphviz.org/Download_windows.php)
+ - [StarUML](http://staruml.sourceforge.net/en/) to examine UML diagrams. We should switch to cross-platform [Dia](http://dia-installer.de/index.html.en), since StarUML only works on Windows.
 
 ### How do I know it's working?
 Open Git Bash to the `CompilerKit` folder. Type in the first line. Did you see the rest? You should.
@@ -40,16 +66,28 @@ Did you see `command not found` after typing these into Git Bash? You should not
  - `doxygen`
  - `cmake`
 
+### How do I get rid of those annoying debug messages during testing?
+
+1. Open `regedit`
+2. Navigate to the following location and select `Windows Error Reporting`:
+
+       HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\Windows Error Reporting
+
+3. Select `Edit -> New -> DWORD (32-bit value)`
+4. Replace `New Value #1` with `DontShowUI`
+5. Double click `DontShowUI`. Enter `1` for value data. Click OK.
+6. Exit `regedit`
+
 ## What to install on Linux
 In the terminal, paste this in for your distribution:
 
 ### Red Hat:
 
-    sudo yum install git cmake doxygen glib-devel pkgconfig
+    sudo yum install git cmake doxygen glib-devel pkgconfig lcov 'graphviz*'
 
 ### Debian, Ubuntu:
 
-    sudo apt-get install git cmake doxygen libglib2.0-dev pkg-config
+    sudo apt-get install git cmake doxygen libglib2.0-dev pkg-config lcov graphviz
 
 ## What to install on Mac
 
@@ -68,6 +106,7 @@ If you do not already have it, install:
 
  - [Command Line Tools for Xcode](https://developer.apple.com/downloads) or [Xcode](http://itunes.apple.com/us/app/xcode/id448457090)
  - [Java Developer Update](https://connect.apple.com)
+ - [GraphViz](http://www.graphviz.org/Download_macos.php)
 
 In the terminal, paste this in:
 
@@ -75,23 +114,11 @@ In the terminal, paste this in:
     
 Once installed, paste this into the Terminal:
 
-    brew install git cmake doxygen glib pkg-config
+    brew install git cmake doxygen glib pkg-config lcov
 
-## How do I build CompilerKit?
-CompilerKit builds with CMake. 
+### Troubleshooting
+If you see the following error when using CMake on the Mac:
 
-The first time you build, do this:
-
-```
-mkdir build && cd build
-cmake ..
-cmake --build .
-```
-
-
-For subsequent builds, in the `build` folder, just run `cmake --build .`
-
-##Error
 ```
 build User$ cmake ..
 CMake Error: CMake was unable to find a build program corresponding to "Unix Makefiles". CMAKE_MAKE_PROGRAM is not set. You probably need to select a different build tool.
@@ -106,20 +133,55 @@ CMake Error: CMAKE_C_COMPILER not set, after EnableLanguage
 -- Configuring incomplete, errors occurred!
 ```
 
-##Solution
+Follow these steps to fix the error:
 
 1.	Open XCode
 2.	Go to Preferences
 3.	Download tab
 4.	Install Command line
 
-This will fix the error above
+## How do I build CompilerKit?
+Easy! Type this in:
 
+    ./build.sh build
+
+If you get build errors that you know shouldn't be there, try rebuild:
+
+    ./build.sh rebuild
+
+To run the test suite, type:
+
+    ./build.sh test
+
+To get a coverage report (assumes `lcov` is installed):
+
+    ./build.sh coverage
 
 ## Where is the documentation?
-After building CompilerKit, look inside the `docs/html` folder.
+[CompilerKit uses Doxygen](#what-is-doxygen) to generate documentation. After building CompilerKit, look at `docs/html/index.html`.
 
 Also, read up on [GLib](#how-do-i-use-glib) and [GObject](#how-do-i-use-gobject).
+
+## What is Doxygen?
+Doxygen generates documentation in HTML, LaTeX, RTF (MS-Word) using specially-formatted comments.
+It can also extract the code structure from undocumented source files for many programming languages (C/C++, Java, Python, etc).
+
+Example comment:
+```
+/**
+ * compilerkit_visitor_register:
+ * @fn compilerkit_visitor_register
+ * @memberof CompilerKitVisitor
+ * Associate the GType of a class with a visitor function.
+ * @pre CompilerKitVisitor* is not NULL.
+ * @param CompilerKitVisitor* The visitor instance.
+ * @param GType The type of the class to visit.
+ * @param CompilerKitVisitorFunc A pointer to a visitor function for the specified type.
+ * @return void
+ */
+```
+
+![A graph of how Doxygen works](images/Doxygen.png)
 
 ## How to contribute
 ### Know thy code layout
@@ -136,38 +198,37 @@ src                 The CompilerKit library source code.
 tests               The test suite to exercise the CompilerKit library.
 ```
 
-### Find an issue to work on
-We use github's [issue tracker](https://github.com/lawrancej/CompilerKit/issues) to manage our work.
-Check there to find unassigned issues (comment on an issue to get dibs).
-Even better, find an issue yourself and [file a bug report.](https://github.com/lawrancej/CompilerKit/issues/new)
-Or, best of all, pair up and split the work on an issue with someone else. 
+The regex classes are: `CompilerKitSymbol`, `CompilerKitEmptySet`, `CompiletKitEmptystring`, `CompilerKitConcatenation`, `CompilerKitAlternation`, `CompilerKitKleeneStar`, `CompilerKitComplement`.
+
+The cfg classes are: `CompilerKitGrammar`, `CompilerKitTerminal`, `CompilerKitNonterminal`, `CompilerKitProduction`.
+
+### Find (or open) an issue to work on
+We use github's issue tracker to manage our participation:
+
+ - [Work on open issues in github's issue tracker](https://github.com/lawrancej/CompilerKit/issues) (comment on issues to get dibs).
+   * Pro tip: pair up and split the work on an issue with someone else. E.g., you test and document, they implement.
+ - [Open new issues.](https://github.com/lawrancej/CompilerKit/issues/new)
+   * Write test cases for inadequately covered code (see existing test cases for ideas).
+   * Improve the documentation (see existing documentation for ideas).
+
+### Review contributions
+[Review code, tests, and documentation for quality issues (comment on pull requests).](https://github.com/lawrancej/CompilerKit/pulls)
+
+ * Does the code compile and make sense?
+ * Did it handle all cases? Check the coverage report.
 
 ### Use topic branches for your work
 Topic branches isolate chunks of work so that it's easier to merge in changes.
 Here's how it works:
 
 ```
+git pull upstream master
 git checkout -b issueXYZ # Create a new local branch issueXYZ
 ... Hack away ...
 git commit -a -m "Work in progress on issueXYZ"
 git push origin issueXYZ # Push local branch to remote repo
+git checkout master
 ```
-
-Using topic branches means you'll need to know how to switch among branches and remove old branches as necessary.
-
-- To switch back to master, type: `git checkout master`
-- To see the branches, type: `git branch`
-- To remove a local branch, type: `git branch -D branch_name`
-- To remove a remote branch, type: `git push origin :branch_name`
-
-You will also need to understand merging.
-
-- If you haven't already done so, type: `./collaborators.sh setup`
-- To get everyone's updates, type: `git fetch --all`
-- To see a list of remotes, type: `git remote`
-- To merge in changes from `contributor`'s `branch` into your current branch, type: `git merge contributor/branch`
-- To deal with merge conflicts, type: `git status`. Then, open up all unstaged files. Make changes as necessary, and do `git add file_name` for each file.
-- To merge in only the version from `somebranch`, type: `git checkout somebranch file_name`
 
 ### Test your changes
 I will not merge code into my master branch until:

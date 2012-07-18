@@ -15,28 +15,60 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "CompilerKit/complement.h"
-#include "test-suite.h"
-
-/** @todo Write test cases of the form: void test_complement_method (void); */
-/** @todo Add function prototypes for all functions into test-suite.h */
-/** @todo Add to test-suite.c: g_test_add_func ("/test-complement/test-complement-method", test_complement_method); */
+#include <glib.h>
+#include "CompilerKit.h"
+#include "test.h"
 
 /**
- * test_complement_method:
- * @fn test_complement_method
- * Tests method compilerkit_complement_method in CompilerKitComplement struct.
+ * test_complement_constructor:
+ * @fn test_complement_constructor
+ * Tests method compilerkit_complement_new in CompilerKitComplement struct.
  * @pre None
  * @param None
  * @return void
  */
-void test_complement_method (void)
+void test_complement_constructor (void)
 {
-    g_test_message ("Testing Complement method");
+	GObject* complement;
+	GObject* regex;
+	
+    g_test_message ("Testing Complement constructor");
+    g_test_timer_start ();
+
+	regex = compilerkit_symbol_new('a');
+	complement = compilerkit_complement_new (regex);
+    
+	g_assert (COMPILERKIT_IS_COMPLEMENT(complement));
+	g_assert (regex != complement);
+	
+    g_assert_cmpfloat(g_test_timer_elapsed (), <=, 1);
+}
+
+/**
+ * test_complement_get_node:
+ * @fn test_complement_get_node
+ * Tests method compilerkit_complement_get_node in CompilerKitComplement struct.
+ * @pre None
+ * @param None
+ * @return void
+ */
+void test_complement_get_node (void)
+{
+	GObject* regex;
+	GObject* complement;
+	GObject* result;
+	
+    g_test_message ("Testing Complement get_node method");
     g_test_timer_start ();
     
-    /** @todo Test here  */
-    g_assert(FALSE);
+	regex = compilerkit_symbol_new('a');
+	complement = compilerkit_complement_new (regex);
+	result = compilerkit_complement_get_node (COMPILERKIT_COMPLEMENT(complement));
+	
+	g_assert (COMPILERKIT_IS_COMPLEMENT(complement));
+	g_assert (regex != complement);
+	g_assert (complement != result);
+	g_assert (regex == result);
     
     g_assert_cmpfloat(g_test_timer_elapsed (), <=, 1);
 }

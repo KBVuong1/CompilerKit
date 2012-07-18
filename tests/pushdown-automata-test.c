@@ -15,19 +15,29 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+#include <glib.h>
+#include "CompilerKit.h"
+#include "test.h"
 
-#include "test-suite.h"
+/** @todo Write test cases of the form: void test_pushdown_automata_case (void); */
+/** @todo Add to test-suite.c: g_test_add_func ("/pushdown-automata/case", test_pushdown_automata_case); */
 
-int main (int argc, char ** argv)
+/**
+ * test_pushdown_automata_method:
+ * @fn test_pushdown_automata_method
+ * Tests method compilerkit_pushdown_automata_method in CompilerKitPushdownAutomata struct.
+ * @pre None
+ * @param None
+ * @return void
+ */
+void test_pushdown_automata_method (void)
 {
-    g_test_init (&argc, &argv, NULL);
-    g_type_init ();
-
-    /** @todo Add here: g_test_add_func ("/class/method", test_class_method); */
-    g_test_add_func ("/automata/start-state", test_FSM_start_state);
-    g_test_add_func ("/automata/states", test_FSM_states);
-    g_test_add_func ("/visitor/null-visit",test_visitor_null_visit);
-    g_test_add_func ("/concatenation/constructor", test_concatenation_constructor);
-
-    g_test_run();
+    g_test_message ("Testing PushdownAutomata method");
+    g_test_timer_start ();
+    
+    /** @todo Test here  */
+    g_assert(FALSE);
+    
+    g_assert_cmpfloat(g_test_timer_elapsed (), <=, 1);
 }
+

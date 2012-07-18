@@ -15,32 +15,38 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
-#include "test-suite.h"
+#include <glib.h>
+#include "CompilerKit.h"
+#include "test.h"
 
-/** @todo Write test cases for Bar.
- * 1. Use this prototype (replace `case` as appropriate):
- *  `void test_bar_case (void);` 
- * 2. Add function prototypes for all functions into `test-suite.h`
- * 3. Add to `test-suite.c`:
- *  `g_test_add_func ("/test-bar/test-bar-case", test_bar_case);`
+/** 
+ * @todo Write test cases, add prototype to `test.h`, call `g_test_add_func` in `test.c:main`
+ * A test case for Bar should be in a function in this file called: `void test_bar_case (void);`
+ * The prototype for the function `void test_bar_case (void);` belongs in `test.h`
+ * In `test.c:main` add this function: g_test_add_func ("/header/case", test_bar_case);
+ * @todo The more test cases the better, until reaching sufficient coverage.
  */
 
 /**
- * test_bar_method:
- * @fn test_bar_method
- * Tests method compilerkit_bar_method in CompilerKitBar struct.
+ * test_bar_case:
+ * @fn test_bar_case
+ * Tests compilerkit_bar_case in CompilerKitBar struct.
  * @pre None
  * @param None
  * @return void
  */
-void test_bar_method (void)
+void test_bar_case (void)
 {
-    Bar *obj;
-    g_test_message ("Testing Bar method");
+    CompilerKitBar *obj;
+
+    g_test_message ("Testing Bar case");
     g_test_timer_start ();
     
     /** @todo Test here  */
     g_assert(FALSE);
     
+    g_object_unref (obj);
+
+    // This test shouldn't take too long to run
     g_assert_cmpfloat(g_test_timer_elapsed (), <=, 1);
 }
