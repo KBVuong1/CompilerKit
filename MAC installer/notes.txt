@@ -1,0 +1,13 @@
+SET UP
+
+http://git-scm.com/download/mac
+
+open git-1.7.11.1-intel-universal-snow-leopard.dmg 
+open /Volumes/Git\ 1.7.11.1\ Snow\ Leopard\ Intel\ Universal/git-1.7.11.1-intel-universal-snow-leopard.pkg 
+
+git config --global user.name "Your Name Here"
+#Sets the default name for git to use when you commit
+
+git config --global user.email "youremail@youremail.com"
+#Sets the default email for git to use when you commit
+
